@@ -1,23 +1,24 @@
 <template>
-  <div class="car_list">
-    <mu-list class="mu_list" textline="two-line">
-      <mu-list-item
-        @click="goDetail(item.carId)"
-        v-for="(item,index) in carList"
-        :key="index"
-        avatar
-        :ripple="false"
-        button
-      >
-        <mu-avatar>
-          <img :src="item.carImg">
-        </mu-avatar>
-        <mu-list-item-content>
-          <mu-list-item-title>{{ item.carTitle }}</mu-list-item-title>
-          <mu-list-item-sub-title>{{ `${item.buyTime}/${item.mileage}万公里` }}</mu-list-item-sub-title>
-          <mu-list-item-sub-title class="price">{{ item.price }}万元</mu-list-item-sub-title>
-        </mu-list-item-content>
-        <!-- <mu-list-item-action>
+  <mu-container class="car_list">
+    <mu-load-more @refresh="_getCollection" :refreshing="loading">
+      <mu-list class="mu_list" textline="two-line" v-if="carList.length!=0">
+        <mu-list-item
+          @click="goDetail(item.carId)"
+          v-for="(item,index) in carList"
+          :key="index"
+          avatar
+          :ripple="false"
+          button
+        >
+          <mu-avatar>
+            <img :src="item.carImg">
+          </mu-avatar>
+          <mu-list-item-content>
+            <mu-list-item-title>{{ item.carTitle }}</mu-list-item-title>
+            <mu-list-item-sub-title>{{ `${item.buyTime}/${item.mileage}万公里` }}</mu-list-item-sub-title>
+            <mu-list-item-sub-title class="price">{{ item.price }}万元</mu-list-item-sub-title>
+          </mu-list-item-content>
+          <!-- <mu-list-item-action>
             <mu-checkbox
               color="yellow700"
               v-model="selects"
@@ -25,11 +26,13 @@
               uncheck-icon="star_border"
               checked-icon="star"
             ></mu-checkbox>
-        </mu-list-item-action>-->
-      </mu-list-item>
-      <mu-divider></mu-divider>
-    </mu-list>
-  </div>
+          </mu-list-item-action>-->
+        </mu-list-item>
+        <mu-divider></mu-divider>
+      </mu-list>
+      <div v-else style="padding-top:100px">暂时没有卖车情况</div>
+    </mu-load-more>
+  </mu-container>
 </template>
 <script>
 import { getMySold } from "../../api/index.js";
@@ -53,7 +56,8 @@ export default {
       highPrice: "",
       selects: "",
       fruits: ["5", "10", "15", "20", "25", "30", "35", "40", "45", "50"],
-      carList: []
+      carList: [],
+      loading: false
     };
   },
   created() {
@@ -62,10 +66,12 @@ export default {
     //   this.searchVal=this.params.searchVal=this.$route.query.searchVal;
     //   // this.$store.commit('searchVal',this.searchVal);
     // }
+    
     this._getCollection();
   },
   methods: {
     _getCollection() {
+      this.loading = true;
       getMySold({ userName: localStorage.getItem("userName") }, data => {
         if (data.code == 0) {
           this.carList = data.result;
@@ -75,6 +81,7 @@ export default {
         } else {
           this.$toast.error("网络错误");
         }
+        this.loading = false;
       });
     },
     goDetail() {
@@ -126,6 +133,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .car_list {
+  /deep/ .mu-load-more {
+    min-height: 300px;
+  }
   .mu-sub-header {
     padding: 0;
     background-color: #fff;

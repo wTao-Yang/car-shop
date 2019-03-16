@@ -23,6 +23,10 @@ const login=getData('/login');
 
 const register=getData('/register');
 
+const isForget=getData('/isForget');
+
+const updatePSW=getData('/updatePSW');
+
 const carList=getData('/cars/carList');
 
 const isCollect=getData('/cars/isCollect');
@@ -65,5 +69,7 @@ export{
   setInfo,
   getBrand,
   clickNum,
-  getHot
+  getHot,
+  updatePSW,
+  isForget
 }

@@ -1,6 +1,7 @@
 <template>
   <div class="car_list">
-    <mu-list class="mu_list" textline="two-line">
+    <mu-load-more @refresh="_getCollection" :refreshing="loading">
+    <mu-list class="mu_list" textline="two-line" v-if="carList.length!=0">
       <mu-list-item
         @click="goDetail(item.carId)"
         v-for="(item,index) in carList"
@@ -29,6 +30,8 @@
       </mu-list-item>
       <mu-divider></mu-divider>
     </mu-list>
+    <div v-else style="padding-top:100px">暂时没有收藏</div>
+    </mu-load-more>
   </div>
 </template>
 <script>
@@ -36,6 +39,7 @@ import { getCollection } from "../../api/index.js";
 export default {
   data() {
     return {
+      loading:false,
       openBrand: false,
       open: false,
       value3: "",
@@ -66,6 +70,7 @@ export default {
   },
   methods: {
     _getCollection() {
+      this.loading=true
       getCollection({ userName: localStorage.getItem("userName") }, data => {
         if (data.code == 0) {
           this.carList = data.result;
@@ -75,6 +80,7 @@ export default {
         } else {
           this.$toast.error("网络错误");
         }
+        this.loading=false
       });
     },
     goDetail(id) {
@@ -126,6 +132,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .car_list {
+    /deep/ .mu-load-more {
+    min-height: 300px;
+  }
   .mu-sub-header {
     padding: 0;
     background-color: #fff;

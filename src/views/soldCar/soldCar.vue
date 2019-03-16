@@ -8,6 +8,16 @@
       <div class="demo-text" v-if="active1 === 0">
         <mu-col span="12" lg="4" sm="6">
           <mu-text-field
+            v-model="carPrice"
+            type="number"
+            label="重置价格"
+            placeholder="重置价格"
+            icon="directions_car"
+            full-width
+            help-text="当前与被评估车辆相同的车辆的最低价格"
+            suffix="万元"
+          ></mu-text-field>
+          <mu-text-field
             v-model="carMeter"
             type="number"
             label="行车里程"
@@ -26,7 +36,7 @@
             suffix="年"
             full-width
           ></mu-date-input>
-          <mu-button color="#42b983" large full-width>
+          <mu-button color="#42b983" large full-width @click="calculate">
             <mu-icon left value="grade"></mu-icon>估价
           </mu-button>
         </mu-col>
@@ -76,12 +86,49 @@ export default {
       active1: 0,
       year: "",
       carMeter: "",
+      carPrice: "",
       options: ["aaa", "bbbb"],
       value1: ""
     };
   },
   created() {
     localStorage.setItem("title", "卖车");
+  },
+  methods: {
+    calculate() {
+      // if(this.year==''||this.carMeter==''||this.carPrice==''){
+      //   this.$toast.error('请全部填写以获取精准结果')
+      //   return
+      // }
+      let now = new Date().getYear();
+      let flag = 0;
+      let yyear=now - this.year.getYear();
+      let years = 1-yyear/10;
+      let meter=1-this.carMeter/30;
+      if (yyear >= 10 || this.carMeter >= 30) {
+        this.$alert("对不起！您的爱车已经接近报废了呢", "估价", {
+          okLabel: "难受"
+        }).then(() => {
+        });
+        return
+      }
+      let cPrice=Math.round(this.carPrice*years * 100) / 100 
+      let mPrice=Math.round(this.carPrice*meter * 100) / 100 
+      if(cPrice>mPrice){
+        let flag=cPrice
+        cPrice=mPrice
+        mPrice=flag
+      }
+      console.log(cPrice+' '+mPrice);
+      this.$alert(`您的爱车估价大概在${cPrice}-${mPrice}万元之间`, "估价", {
+          okLabel: "知道了"
+        }).then(() => {
+      });
+    },
+    getMeterLimit(meter) {
+      if (meter == 1) return 1;
+      return meter + this.getMeterLimit(meter - 1);
+    }
   }
 };
 </script>
@@ -95,7 +142,7 @@ export default {
 .demo-text {
   margin-top: 10px;
 }
-.mu_button{
+.mu_button {
   margin-bottom: 5px;
 }
 </style>

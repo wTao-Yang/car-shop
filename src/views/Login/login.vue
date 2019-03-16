@@ -15,7 +15,7 @@
           ></mu-text-field>
         </mu-form-item>
         <div class="forget">
-          <span>忘记密码？</span>
+          <span @click="forget">忘记密码？</span>
           <span @click="goIndex" style="position:relative;right:-75px">游客登录</span>
           </div>
         <!-- <mu-form-item label="姓名" prop="username" :rules="usernameRules">
@@ -114,6 +114,9 @@ export default {
     }
   },
   methods: {
+    forget(){
+      this.$router.push({ path: "/forget" });
+    },
     goIndex(){
       this.$router.push({ path: "/index" });
     },

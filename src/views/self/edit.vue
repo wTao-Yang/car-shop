@@ -27,7 +27,7 @@ export default {
       form: {
         nickName: "",
         phone: "",
-        sex: "0",
+        sex: "",
         birthday: "",
       }
     };
