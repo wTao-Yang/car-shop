@@ -7,6 +7,10 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "muse-ui": "^3.0.2",
+    "muse-ui-message": "^0.2.1",
+    "muse-ui-toast": "^0.3.0",
     "vue": "^2.6.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
