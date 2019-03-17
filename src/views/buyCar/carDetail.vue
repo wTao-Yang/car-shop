@@ -19,7 +19,7 @@
       <div class="info_price">
         <span>车主报价：</span>
         <span class="price">{{ carInfo.price }}万元</span>
-        <mu-button color="#42b983">询问底价</mu-button>
+        <mu-button color="#42b983" @click="phoneCall">询问底价</mu-button>
         <mu-checkbox
           @change="collect"
           color="yellow700"
@@ -46,47 +46,100 @@
       <mu-list>
         <mu-list-item>
           <mu-list-item-action>
-            <div class="info_label">购车</div>
-          </mu-list-item-action>
-          <mu-list-item-content>
-            <mu-list-item-title>List Item 2</mu-list-item-title>
-          </mu-list-item-content>
-        </mu-list-item>
-        <mu-divider></mu-divider>
-        <mu-list-item>
-          <mu-list-item-action>
             <div class="info_label">购车日期</div>
           </mu-list-item-action>
           <mu-list-item-content>
-            <mu-list-item-title>List Item 2</mu-list-item-title>
+            <mu-list-item-title>{{ carInfo.buyTime?carInfo.buyTime:'未知' }}</mu-list-item-title>
           </mu-list-item-content>
         </mu-list-item>
-        <mu-divider></mu-divider>
         <mu-list-item>
           <mu-list-item-action>
-            <div class="info_label">日期</div>
+            <div class="info_label">年险到期</div>
           </mu-list-item-action>
           <mu-list-item-content>
-            <mu-list-item-title>List Item 2</mu-list-item-title>
+            <mu-list-item-title>{{ carInfo.annualRisk?carInfo.annualRisk:'已过期' }}</mu-list-item-title>
+          </mu-list-item-content>
+        </mu-list-item>
+        <mu-list-item>
+          <mu-list-item-action>
+            <div class="info_label">交强险到期</div>
+          </mu-list-item-action>
+          <mu-list-item-content>
+            <mu-list-item-title>{{ carInfo.compulsoryInsurance?carInfo.compulsoryInsurance:'已过期' }}</mu-list-item-title>
+          </mu-list-item-content>
+        </mu-list-item>
+        <mu-list-item>
+          <mu-list-item-action>
+            <div class="info_label">商业险到期</div>
+          </mu-list-item-action>
+          <mu-list-item-content>
+            <mu-list-item-title>{{ carInfo.commercialInsurance?carInfo.commercialInsurance:'已过期' }}</mu-list-item-title>
+          </mu-list-item-content>
+        </mu-list-item>
+        <mu-list-item>
+          <mu-list-item-action>
+            <div class="info_label">行驶里程</div>
+          </mu-list-item-action>
+          <mu-list-item-content>
+            <mu-list-item-title>{{ carInfo.mileage?carInfo.buyTime+'万公里':'未知' }}</mu-list-item-title>
+          </mu-list-item-content>
+        </mu-list-item>
+        <mu-list-item>
+          <mu-list-item-action>
+            <div class="info_label">排放标准</div>
+          </mu-list-item-action>
+          <mu-list-item-content>
+            <mu-list-item-title>{{ carInfo.emissionStandard?carInfo.emissionStandard:'未知' }}</mu-list-item-title>
+          </mu-list-item-content>
+        </mu-list-item>
+        <mu-list-item>
+          <mu-list-item-action>
+            <div class="info_label">排放量</div>
+          </mu-list-item-action>
+          <mu-list-item-content>
+            <mu-list-item-title>{{ carInfo.emissions?carInfo.emissions:'未知' }}</mu-list-item-title>
+          </mu-list-item-content>
+        </mu-list-item>
+        <mu-list-item>
+          <mu-list-item-action>
+            <div class="info_label">过户次数</div>
+          </mu-list-item-action>
+          <mu-list-item-content>
+            <mu-list-item-title>{{ carInfo.transferTimes?carInfo.transferTimes:'未知' }}</mu-list-item-title>
+          </mu-list-item-content>
+        </mu-list-item>
+        <mu-list-item>
+          <mu-list-item-action>
+            <div class="info_label">变速箱</div>
+          </mu-list-item-action>
+          <mu-list-item-content>
+            <mu-list-item-title>{{ carInfo.variableSpeed?carInfo.variableSpeed:'未知' }}</mu-list-item-title>
           </mu-list-item-content>
         </mu-list-item>
       </mu-list>
     </div>
     <div v-if="active1 === 1">
-      <mu-card-header class="card" title="Myron Avatar" sub-title="sub title">
+      <!-- <mu-card-header class="card" title="Myron Avatar" sub-title="sub title">
         <mu-avatar slot="avatar">
           <img src="../../assets/logo.png">
         </mu-avatar>
         <mu-button class="mu-button" color="#42b983">咨询详情</mu-button>
-      </mu-card-header>
+      </mu-card-header>-->
       <!-- <mu-card-title title="Content Title" sub-title="Content Title"></mu-card-title> -->
-      <mu-card-text>{{ carInfo.introduction }}</mu-card-text>
+      <mu-card-text>{{ carInfo.introduction?carInfo.introduction:'车主暂无对车子的介绍' }}</mu-card-text>
     </div>
     <div class="divider"></div>
     <div class="car_list">
       <mu-sub-header>发现相似低价好车</mu-sub-header>
       <mu-list textline="two-line">
-        <mu-list-item v-for="(item,index) in carList" :key="index" avatar :ripple="false" button>
+        <mu-list-item
+          @click="goDetail(item.carId)"
+          v-for="(item,index) in carList"
+          :key="index"
+          avatar
+          :ripple="false"
+          button
+        >
           <mu-avatar>
             <img :src="item.carImg">
           </mu-avatar>
@@ -109,16 +162,24 @@
       </mu-list>
     </div>
     <div style="height:40px"></div>
-    <mu-button class="float_button" full-width color="#42b983">立即预约</mu-button>
+    <mu-button @click="_appoint" class="float_button" full-width color="#42b983">立即预约</mu-button>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import HelloWorld from "@/components/HelloWorld.vue";
-import { getCarDetail, carList, collect, isCollect,clickNum } from "../../api/index.js";
+import {
+  getCarDetail,
+  getSimilar,
+  collect,
+  isCollect,
+  clickNum,
+  appoint
+} from "../../api/index.js";
 export default {
   name: "home",
+  inject: ["reload"],
   components: {
     HelloWorld
   },
@@ -130,9 +191,11 @@ export default {
       carId: this.$route.query.id,
       carInfo: {},
       carList: [],
+      phoneNum: 12345678900
     };
   },
   created() {
+    window.scrollTo(0, 0);
     this._getDetail();
     this._clickNum();
     if (localStorage.getItem("userName")) {
@@ -140,45 +203,76 @@ export default {
     }
   },
   methods: {
-    _clickNum(){
-      clickNum({carId:this.carId,clickNum:this.carInfo.clickNum++},data=>{
-
-      })
+    phoneCall() {
+      if (!localStorage.getItem("userName")) {
+        this.$confirm("请先登录", "提示", {
+          type: "warning"
+        }).then(({ result }) => {
+          if (result) {
+            this.$router.push({ path: "/" });
+          } else {
+          }
+        });
+      } else {
+        window.location.href = "tel://" + this.phoneNum;
+      }
+    },
+    _appoint() {
+      if (!localStorage.getItem("userName")) {
+        this.$confirm("请先登录", "提示", {
+          type: "warning"
+        }).then(({ result }) => {
+          if (result) {
+            this.$router.push({ path: "/" });
+          } else {
+          }
+        });
+      } else {
+        appoint(
+          {
+            userName: localStorage.getItem("userName"),
+            price: this.carInfo.price,
+            carTitle: this.carInfo.carTitle,
+            carId: this.carId
+          },
+          data => {
+            if (data.isSuccess) {
+              this.$toast.success("申请成功");
+            } else {
+              this.$toast.error("申请失败，请稍后再试");
+            }
+          }
+        );
+      }
+    },
+    _clickNum() {
+      clickNum(
+        { carId: this.carId, clickNum: this.carInfo.clickNum++ },
+        data => {}
+      );
     },
     getCollect() {
       isCollect(
         { userName: localStorage.getItem("userName"), carId: this.carId },
         data => {
-          this.selects = data[0].status==1?true:false;
+          this.selects = data[0].status == 1 ? true : false;
         }
       );
     },
     _getList() {
-      let params={
-        searchVal:'',
-        lowPrice:'',
-        highPrice:'',
-        brand:''
-      }
-      params.lowPrice=(this.carInfo.price-5).toString();
-      params.highPrice=(this.carInfo.price+5).toString();
-      let self=this;
-      carList({page:0,params}, data => {
+      getSimilar({ price: this.carInfo.price + 5, carId: this.carId }, data => {
         this.carList = data.data.result;
-        let index=this.carList.findIndex((item)=>{
-          return item.carId==self.carId
-        })
-        this.carList.splice(index,1)
         this.carList.forEach(item => {
           item.carImg = item.carImg.split(",")[0];
         });
-        // console.log(this.carList.carImg)
-        // this.carList.carImg = this.carList.carImg.split(',')[0]
       });
     },
     _getDetail() {
       getCarDetail({ carId: this.carId }, data => {
         this.carInfo = data.data.result[0];
+        this.carInfo.variableSpeed = 0
+          ? (this.carInfo.variableSpeed = "自动")
+          : (this.carInfo.variableSpeed = "手动");
         this._getList();
         this.carInfo.carImg = this.carInfo.carImg.split(",");
       });
@@ -206,16 +300,9 @@ export default {
         this.$toast.error("您尚未登录");
       }
     },
-    tryClick() {
-      login({ id: "aa" }, data => {
-        debugger;
-      });
-    },
-    search() {
-      this.$router.push({
-        path: "/carList",
-        query: { searchVal: this.searchVal }
-      });
+    goDetail(id) {
+      this.$router.push({ path: "/carDetail", query: { id: id } });
+      this.reload();
     }
   }
 };

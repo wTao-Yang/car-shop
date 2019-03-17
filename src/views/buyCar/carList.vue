@@ -181,7 +181,9 @@ export default {
     this.params = this.$store.state.params;
     if (this.$route.query.searchVal) {
       this.searchVal = this.params.searchVal = this.$route.query.searchVal;
-      // this.$store.commit('searchVal',this.searchVal);
+    }
+    if (this.$route.query.brand) {
+      this.brand = this.params.brand = this.$route.query.brand;
     }
     this._getCarList();
     this._getBrand();
@@ -205,7 +207,6 @@ export default {
       });
     },
     goDetail(id) {
-      localStorage.setItem("title", "车辆详情");
       this.$router.push({ path: "/carDetail", query: { id: id } });
     },
     handleClose(key) {
@@ -215,18 +216,6 @@ export default {
       }
       this._getCarList();
     },
-    // refresh() {
-    //   this.refreshing = true;
-    //   // this.$refs.container.scrollTop = 0;
-    //   let params = this.params;
-    //   carList({ params,page:0 }, data => {
-    //     this.carList = data.data.result;
-    //     this.carList.forEach(item => {
-    //       item.carImg = item.carImg.split(",")[0];
-    //     });
-    //     this.refreshing = false;
-    //   });
-    // },
     load() {
       this.loading = true;
       let params = this.params;

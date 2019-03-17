@@ -14,8 +14,8 @@
       </mu-button>
     </div>
     <mu-carousel hide-controls>
-      <mu-carousel-item v-for="item in imgList" :key="item">
-        <img :src="item">
+      <mu-carousel-item v-for="item in imgList" :key="item.carId">
+        <img @click="goDetail(item.carId)" :src="item.img">
       </mu-carousel-item>
       <!-- <mu-carousel-item>
         <img src="../../assets/images/fu2012/fu2.jpg">
@@ -28,18 +28,19 @@
       </mu-carousel-item>-->
     </mu-carousel>
     <mu-flex class="button-wrapper">
+      <mu-sub-header>热门品牌</mu-sub-header>
+      <mu-button color="success" @click="goCarList(item.hotBrand)" large v-for="(item,index) in hotBrand" :key="index">
+        <mu-icon left value="whatshot"></mu-icon><span class="hot_brand">{{ item.hotBrand }}</span>
+      </mu-button>
+      <!-- <mu-button color="success" large>
+        <mu-icon left value="whatshot"></mu-icon><span></span>
+      </mu-button>
       <mu-button color="success" large>
-        <mu-icon left value="android"></mu-icon>Android
+        <mu-icon left value="whatshot"></mu-icon><span></span>
       </mu-button>
-      <mu-button color="primary" large>
-        <mu-icon left value="grade"></mu-icon>Star
-      </mu-button>
-      <mu-button color="primary" large>
-        <mu-icon left value="grade"></mu-icon>Star
-      </mu-button>
-      <mu-button color="primary" large>
-        <mu-icon left value="grade"></mu-icon>Star
-      </mu-button>
+      <mu-button color="success" large>
+        <mu-icon left value="whatshot"></mu-icon><span></span>
+      </mu-button> -->
     </mu-flex>
     <div class="car_list">
       <mu-sub-header>热门车型</mu-sub-header>
@@ -72,7 +73,7 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from "@/components/HelloWorld.vue";
-import { getHot } from "../../api/index.js";
+import { getHot,getHotBrand,getWheel } from "../../api/index.js";
 import axios from "axios";
 export default {
   name: "home",
@@ -84,18 +85,34 @@ export default {
       selects: "",
       searchVal: "",
       imgList: [
-        "http://localhost:3000/images/yfnd.jpg",
-        "http://localhost:3000/images/yfnd2.jpg",
-        "http://localhost:3000/images/yfnd3.jpg"
+        // "http://localhost:3000/images/yfnd.jpg",
+        // "http://localhost:3000/images/yfnd2.jpg",
+        // "http://localhost:3000/images/yfnd3.jpg"
       ],
       carList:[],
+      hotBrand:[]
     };
   },
   created() {
     localStorage.setItem("title", "首页");
     this._getList()
+    this._getWheel()
+    this._getHotBrand()
   },
   methods: {
+    // goDetail(){
+    //   this.$router.push({ path: "/carDetail", query: { id: id } });
+    // },
+    _getHotBrand(){
+      getHotBrand({},data=>{
+        this.hotBrand=data.data.result;
+      })
+    },
+    _getWheel(){
+      getWheel({},data=>{
+        this.imgList=data.data.result;
+      })
+    },
     _getList(){
       getHot({},data=>{
         this.carList = data.data.result;
@@ -125,9 +142,10 @@ export default {
      });
       return false
     },
-    tryClick() {
-      login({ id: "aa" }, data => {
-        debugger;
+    goCarList(brand){
+      this.$router.push({
+        path: "/carList",
+        query: { brand: brand }
       });
     },
     search() {
@@ -142,6 +160,14 @@ export default {
 
 <style scoped lang="scss">
 .home {
+  .hot_brand{
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+  }
   .search {
     padding-top: 1px;
     input,
@@ -199,6 +225,10 @@ export default {
     // height: 100%;
   }
 }
+  .mu-sub-header {
+    padding: 0;
+    background-color: #fff;
+  }
 .car_list {
   .mu-sub-header {
     padding: 0;

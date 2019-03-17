@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <mu-appbar style="width: 100%;position:fixed" color="#42b983">
+    <mu-appbar style="width: 100%;position:fixed;z-index: 1000;" color="#42b983">
       <!-- <mu-button icon slot="left">
         <mu-icon value="menu"></mu-icon>
       </mu-button>-->
@@ -22,7 +22,7 @@
       </mu-menu>-->
     </mu-appbar>
     <div style="height: 56px"></div>
-    <router-view class="view"/>
+    <router-view class="view"  v-if="isRouterAlive"/>
     <div style="height: 56px"></div>
     <mu-bottom-nav :value.sync="title" style="position: fixed;bottom: 0;width: 100%">
       <mu-bottom-nav-item value="首页" title="首页" icon="home" to="/index"></mu-bottom-nav-item>
@@ -43,8 +43,14 @@ export default {
   components: {
     HelloWorld
   },
+  provide(){
+    return {
+      reload:this.reload
+    }
+  },
   data() {
     return {
+      isRouterAlive:true,
       title: this.$route.name
     };
   },
@@ -66,10 +72,11 @@ export default {
     }
   },
   methods: {
-    tryClick() {
-      login({ id: "aa" }, data => {
-        debugger;
-      });
+reload(){
+      this.isRouterAlive = false;
+      this.$nextTick(function(){
+        this.isRouterAlive = true;
+      })
     }
   }
 };

@@ -27,6 +27,10 @@ const isForget=getData('/isForget');
 
 const updatePSW=getData('/updatePSW');
 
+const getHotBrand=getData('/getHotBrand');
+
+const getWheel=getData('/getWheel');
+
 const carList=getData('/cars/carList');
 
 const isCollect=getData('/cars/isCollect');
@@ -35,7 +39,11 @@ const getHot=getData('/cars/getHot');
 
 const getBrand=getData('/cars/getBrand');
 
+const appoint=getData('/cars/appoint');
+
 const getCarDetail=getData('/cars/carDetail');
+
+const getSimilar=getData('/cars/getSimilar');
 
 const clickNum=getData('/cars/updateClickNum');
 
@@ -52,6 +60,8 @@ const getMySold=getData('/self/mySold');
 const setSuggest=getData('/self/setSuggest');
 
 const setInfo=getData('/self/setInfo');
+
+const apply=getData('/shopCar/apply');
 
 
 export{
@@ -71,5 +81,10 @@ export{
   clickNum,
   getHot,
   updatePSW,
-  isForget
+  isForget,
+  apply,
+  getSimilar,
+  getHotBrand,
+  getWheel,
+  appoint
 }
