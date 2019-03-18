@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseURL='http://localhost:3000';
+const baseURL='http://10.203.49.160:8088';
 
 function getData(url,method='post'){
 	return async(data,callback) => {
@@ -61,6 +61,14 @@ const setSuggest=getData('/self/setSuggest');
 
 const setInfo=getData('/self/setInfo');
 
+const getApply=getData('/self/getApply');
+
+const cancelApply=getData('/self/cancelApply');
+
+const getAppoint=getData('/self/getAppoint');
+
+const upload=getData('/upload','post');
+
 const apply=getData('/shopCar/apply');
 
 
@@ -86,5 +94,9 @@ export{
   getSimilar,
   getHotBrand,
   getWheel,
-  appoint
+  appoint,
+  getAppoint,
+  getApply,
+  cancelApply,
+  upload
 }

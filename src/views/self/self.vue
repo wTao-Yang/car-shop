@@ -8,6 +8,22 @@
       </div>
       <mu-paper :z-depth="2">
         <mu-list>
+          <mu-list-item @click.native="goApply">
+            <mu-list-item-action>
+              <mu-icon value="view_list"></mu-icon>
+            </mu-list-item-action>
+            <mu-list-item-content>
+              <mu-list-item-title>卖车申请</mu-list-item-title>
+            </mu-list-item-content>
+          </mu-list-item>
+          <mu-list-item @click.native="goAppoint">
+            <mu-list-item-action>
+              <mu-icon value="list"></mu-icon>
+            </mu-list-item-action>
+            <mu-list-item-content>
+              <mu-list-item-title>预约列表</mu-list-item-title>
+            </mu-list-item-content>
+          </mu-list-item>
           <mu-list-item @click.native="goMySold">
             <mu-list-item-action>
               <mu-icon value="airport_shuttle"></mu-icon>
@@ -54,7 +70,7 @@
     </div>
     <div v-else>
       <div class="self_card">
-        <img src="../../assets/images/fu2012/fu1.jpg" alt>
+        <img src="../../assets/images/headpic.jpg" alt>
         <div>未登录</div>
       </div>
       <mu-button @click="goLogin" style="width:80%" color="#42b983" round>请登录...</mu-button>
@@ -66,34 +82,32 @@
       enctype="multipart/form-data"
       onsubmit="return false"
     >
-      <h2>单图上传</h2>
       <input ref="img" @change="isHasFile" type="file" name="logo">
-      <input type="button" @click="saveReport" value="提交">
+      <!-- <input type="button" @click="saveReport" value="提交"> -->
     </form>
   </div>
 </template>
 <script>
-import axios from "axios";
-import { getInfo } from "../../api/index.js";
+import { getInfo,upload } from "../../api/index.js";
 export default {
   data() {
     return {
       show: false,
-      info:{}
+      info: {}
     };
   },
   created() {
     localStorage.setItem("title", "个人");
     if (localStorage.getItem("userName")) {
       this.show = true;
-      this._getInfo()
+      this._getInfo();
     }
   },
   methods: {
-    _getInfo(){
-      getInfo({userName:localStorage.getItem('userName')},data=>{
-        this.info=data
-      })
+    _getInfo() {
+      getInfo({ userName: localStorage.getItem("userName") }, data => {
+        this.info = data;
+      });
     },
     isHasFile() {
       if (this.$refs.img.files[0]) {
@@ -101,8 +115,7 @@ export default {
           type: "warning"
         }).then(({ result }) => {
           if (result) {
-            this.saveReport()
-            // this.$toast.message("点击了确定");
+            this.saveReport();
           } else {
             this.$toast.message("取消上传");
           }
@@ -115,23 +128,25 @@ export default {
     saveReport() {
       let formData = new FormData();
       let file = document.getElementById("image");
-      formData.append("logo", this.$refs.img.files[0]);
-      formData.append("userName", localStorage.getItem('userName'))
-      axios
-        .post("http://localhost:8887/upload", formData, {
-          headers: { "Content-Type": "multipart/form-data" }
-        })
-        .then(result => {
-          if (result.data.code==0) {
-            this._getInfo()
-            this.$toast.success("上传成功");
-          } else {
-            this.$toast.error("上传失败");
-          }
-        });
+      formData.append("imageFile", this.$refs.img.files[0]);
+      formData.append("userName", localStorage.getItem("userName"));
+      upload(formData,data=>{
+        if (data.code == 0) {
+          this._getInfo();
+          this.$toast.success("上传成功");
+        } else {
+          this.$toast.error("上传失败");
+        }
+      })
       this.$refs.img.values = "";
       this.$refs.img.outerHTML = this.$refs.img.outerHTML;
       return false;
+    },
+    goApply() {
+      this.$router.push({ path: "/apply" });
+    },
+    goAppoint() {
+      this.$router.push({ path: "/appoint" });
     },
     goEdit() {
       this.$router.push({ path: "/edit" });
@@ -165,6 +180,8 @@ export default {
       margin-top: 30px;
       width: 100px;
       height: 100px;
+            min-width: 100px;
+      min-height: 100px;
       border-radius: 50%;
     }
     .text {

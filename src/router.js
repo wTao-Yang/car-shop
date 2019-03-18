@@ -66,6 +66,16 @@ export default new Router({
           component: () => import('./views/self/self.vue')
         },
         {
+          path: '/apply',
+          name: '卖车申请',
+          component: () => import('./views/self/apply.vue')
+        },
+        {
+          path: '/appoint',
+          name: '预约申请',
+          component: () => import('./views/self/appoint.vue')
+        },
+        {
           path: '/edit',
           name: '编辑',
           component: () => import('./views/self/edit.vue')

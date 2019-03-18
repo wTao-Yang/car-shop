@@ -66,7 +66,8 @@ export default {
 <style lang="scss">
 #app {
   height: 100%;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  // font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: "Roboto,Lato,sans-serif";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

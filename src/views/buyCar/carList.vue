@@ -105,7 +105,7 @@
         :loading="loading"
         @load="load"
       >
-        <mu-list class="mu_list" textline="two-line">
+        <mu-list class="mu_list" textline="two-line" v-if="carList.length!=0">
           <mu-list-item
             @click="goDetail(item.carId)"
             v-for="(item,index) in carList"
@@ -133,6 +133,7 @@
             </mu-list-item-action>-->
           </mu-list-item>
         </mu-list>
+        <div v-else style="padding-top:100px">暂时找不到您想要的爱车呢！</div>
       </mu-load-more>
       <div v-if="loadAll" style="padding:15px">已经到底了</div>
     </mu-container>
@@ -221,7 +222,7 @@ export default {
       let params = this.params;
       this.page++;
       carList({ params, page: this.page }, data => {
-        if (data.data.result.length == 0) {
+        if (data.data.result.length < 10) {
           this.loadAll = true;
         }
         this.carList = this.carList.concat(data.data.result);

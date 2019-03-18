@@ -197,7 +197,6 @@ export default {
   created() {
     window.scrollTo(0, 0);
     this._getDetail();
-    this._clickNum();
     if (localStorage.getItem("userName")) {
       this.getCollect();
     }
@@ -233,13 +232,17 @@ export default {
             userName: localStorage.getItem("userName"),
             price: this.carInfo.price,
             carTitle: this.carInfo.carTitle,
-            carId: this.carId
+            carId: this.carId,
+            status:0
           },
           data => {
             if (data.isSuccess) {
-              this.$toast.success("申请成功");
-            } else {
-              this.$toast.error("申请失败，请稍后再试");
+              this.$toast.success("预约成功");
+            } else if(data.code==0){
+              this.$toast.error("您已预约，请勿重复预约");
+            }
+            else {
+              this.$toast.error("预约失败，请稍后再试");
             }
           }
         );
@@ -247,7 +250,7 @@ export default {
     },
     _clickNum() {
       clickNum(
-        { carId: this.carId, clickNum: this.carInfo.clickNum++ },
+        { carId: this.carId, clickNum: ++this.carInfo.clickNum },
         data => {}
       );
     },
@@ -274,6 +277,7 @@ export default {
           ? (this.carInfo.variableSpeed = "自动")
           : (this.carInfo.variableSpeed = "手动");
         this._getList();
+        this._clickNum();
         this.carInfo.carImg = this.carInfo.carImg.split(",");
       });
     },
