@@ -15,11 +15,11 @@
       </mu-carousel-item>-->
     </mu-carousel>
     <div class="info_header">
-      <span>{{ carInfo.carTitle }}}</span>
+      <span>{{ carInfo.carTitle }}</span>
       <div class="info_price">
         <span>车主报价：</span>
         <span class="price">{{ carInfo.price }}万元</span>
-        <mu-button color="#42b983" @click="phoneCall">询问底价</mu-button>
+        <mu-button color="#42b983" @click="phoneCall">询问客服</mu-button>
         <mu-checkbox
           @change="collect"
           color="yellow700"

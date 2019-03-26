@@ -4,7 +4,7 @@
     id="uploadForm" 
     method="post" 
     enctype="multipart/form-data" 
-    action="http://localhost:8886/upload" 
+    action="http://localhost:8088/upload" 
     target="uploadFrame">
     <p style="margin:10px 0;">上传图片:
         <input type="text" name="name" value="xiangheng">
@@ -49,7 +49,7 @@ export default {
       // let file = document.getElementById("image");
       debugger
       formData.append("imageFile", this.$refs.img.files);
-      // formData.append("userName", localStorage.getItem("userName"));
+      formData.append("userName", '123456');
       formData.append("carId", '1231414');
       axios
         .post("http://localhost:8088/uploads", formData, {

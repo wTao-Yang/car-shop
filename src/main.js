@@ -11,7 +11,10 @@ import 'muse-ui-loading/dist/muse-ui-loading.css'; // load css
 import Loading from 'muse-ui-loading';
 Vue.use(Loading);
 Vue.use(Message);
-Vue.use(Toast);
+let config={
+  time: 2000, 
+}
+Vue.use(Toast,config);
 
 Vue.use(MuseUI);
 
@@ -27,3 +30,5 @@ new Vue({
 Vue.prototype.message=function(message = "hello", color = "success"){
   this.$store.commit("_message", {message:message,color:color});
 }
+
+

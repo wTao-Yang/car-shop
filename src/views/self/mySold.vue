@@ -16,7 +16,8 @@
           <mu-list-item-content>
             <mu-list-item-title>{{ item.carTitle }}</mu-list-item-title>
             <mu-list-item-sub-title>{{ `${item.buyTime}/${item.mileage}万公里` }}</mu-list-item-sub-title>
-            <mu-list-item-sub-title class="price">{{ item.price }}万元</mu-list-item-sub-title>
+          <mu-list-item-sub-title class="flex"><span class="price">{{ item.price }}万元</span><span class="status" :class="{'status1':item.status==0}">{{ statusList[item.status] }}</span></mu-list-item-sub-title>
+          
           </mu-list-item-content>
           <!-- <mu-list-item-action>
             <mu-checkbox
@@ -57,7 +58,8 @@ export default {
       selects: "",
       fruits: ["5", "10", "15", "20", "25", "30", "35", "40", "45", "50"],
       carList: [],
-      loading: false
+      loading: false,
+      statusList:['正在热卖','已出售','已下架'],
     };
   },
   created() {
@@ -178,11 +180,20 @@ export default {
       }
       .mu-item-sub-title {
         color: #999;
+        display: flex;
+        justify-content: space-between;
       }
       .price {
         color: red;
         font-weight: bold;
         font-size: 20px;
+      }
+      .status{
+        color:#999;
+        line-height: 30px;
+      }
+      .status1{
+        color:red;
       }
     }
   }

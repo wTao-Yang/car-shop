@@ -16,7 +16,7 @@
         <mu-list-item-content>
           <mu-list-item-title>{{ item.carTitle }}</mu-list-item-title>
           <mu-list-item-sub-title>{{ `${item.buyTime}/${item.mileage}万公里` }}</mu-list-item-sub-title>
-          <mu-list-item-sub-title class="price">{{ item.price }}万元</mu-list-item-sub-title>
+          <mu-list-item-sub-title class="flex"><span class="price">{{ item.price }}万元</span><span class="status" :class="{'status1':item.status==0}">{{ statusList[item.status] }}</span></mu-list-item-sub-title>
         </mu-list-item-content>
         <!-- <mu-list-item-action>
             <mu-checkbox
@@ -26,7 +26,7 @@
               uncheck-icon="star_border"
               checked-icon="star"
             ></mu-checkbox>
-        </mu-list-item-action>-->
+        </mu-list-item-action> -->
       </mu-list-item>
       <mu-divider></mu-divider>
     </mu-list>
@@ -57,15 +57,11 @@ export default {
       highPrice: "",
       selects: "",
       fruits: ["5", "10", "15", "20", "25", "30", "35", "40", "45", "50"],
-      carList: []
+      carList: [],
+      statusList:['正在热卖','已出售','已下架'],
     };
   },
   created() {
-    // this.params=this.$store.state.params;
-    // if(this.$route.query.searchVal){
-    //   this.searchVal=this.params.searchVal=this.$route.query.searchVal;
-    //   // this.$store.commit('searchVal',this.searchVal);
-    // }
     this._getCollection();
   },
   methods: {
@@ -86,47 +82,6 @@ export default {
     goDetail(id) {
       this.$router.push({ path: "/carDetail", query: { id: id } });
     },
-    handleClose(key) {
-      this.params[key] = "";
-      if (key == "searchVal") {
-        this.searchVal = "";
-      }
-    },
-    remove(index) {
-      this.chips.splice(index, 1);
-    },
-    // reset () {
-    //   this.chips = [...initChips];
-    // },
-    search() {
-      this.params.searchVal = this.searchVal;
-      // this.chips.splice(3, 0, this.searchVal);
-      // this.chips.push(this.searchVal)
-    },
-    okBrand() {
-      this.params.brand = this.brand;
-      this.openBrand = false;
-    },
-    okPrice() {
-      this.params.lowPrice = this.lowPrice;
-      this.params.highPrice = this.highPrice;
-      this.open = false;
-    },
-    closeBottomSheet() {
-      this.open = false;
-    },
-    openBotttomSheet() {
-      this.lowPrice = this.params.lowPrice;
-      this.highPrice = this.params.highPrice;
-      this.open = true;
-    },
-    openBrandBox() {
-      this.brand = this.params.brand;
-      this.openBrand = true;
-    },
-    closeBrandBox() {
-      this.openBrand = false;
-    }
   }
 };
 </script>
@@ -177,11 +132,20 @@ export default {
       }
       .mu-item-sub-title {
         color: #999;
+        display: flex;
+        justify-content: space-between;
       }
       .price {
         color: red;
         font-weight: bold;
         font-size: 20px;
+      }
+      .status{
+        color:#999;
+        line-height: 30px;
+      }
+      .status1{
+        color:red;
       }
     }
   }

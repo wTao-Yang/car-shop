@@ -37,7 +37,7 @@
             full-width
           ></mu-date-input>
           <mu-button color="#42b983" large full-width @click="calculate">
-            <mu-icon left value="grade"></mu-icon>估价
+            <mu-icon left></mu-icon>估价
           </mu-button>
         </mu-col>
       </div>
@@ -74,8 +74,8 @@
           full-width
         ></mu-date-input>-->
         <mu-form ref="form" :model="form" class="mu-demo-form">
-          <mu-form-item prop="name" label="姓名" :rules="rules">
-            <mu-text-field v-model="form.name" placeholder="请输入姓名" prop="name"></mu-text-field>
+          <mu-form-item prop="name" label="名称" :rules="rules">
+            <mu-text-field v-model="form.name" placeholder="请输入车辆名称" prop="name"></mu-text-field>
           </mu-form-item>
           <mu-form-item prop="phone" label="手机号码" :rules="rules">
             <mu-text-field
@@ -128,7 +128,7 @@
           </mu-form-item>
         </mu-form>
         <mu-button @click="apply" class="mu_button" color="#42b983" large full-width>
-          <mu-icon left value="grade"></mu-icon>申请
+          <mu-icon left></mu-icon>申请
         </mu-button>
       </div>
     </div>
@@ -179,7 +179,7 @@ export default {
       }else{
       this.$refs.form.validate().then(result => {
         if (result) {
-          let form = this.form;
+          let form = Object.assign({},this.form);
           form.year = 1900 + form.year.getYear();
           apply({ userName: localStorage.getItem("userName"), form }, data => {
             if (data.isSuccess) {

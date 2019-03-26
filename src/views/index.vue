@@ -22,7 +22,7 @@
       </mu-menu>-->
     </mu-appbar>
     <div style="height: 56px"></div>
-    <router-view class="view"  v-if="isRouterAlive"/>
+    <router-view class="view" v-if="isRouterAlive"/>
     <div style="height: 56px"></div>
     <mu-bottom-nav :value.sync="title" style="position: fixed;bottom: 0;width: 100%">
       <mu-bottom-nav-item value="首页" title="首页" icon="home" to="/index"></mu-bottom-nav-item>
@@ -43,40 +43,68 @@ export default {
   components: {
     HelloWorld
   },
-  provide(){
+  provide() {
     return {
-      reload:this.reload
-    }
+      reload: this.reload
+    };
   },
   data() {
     return {
-      isRouterAlive:true,
+      isRouterAlive: true,
       title: this.$route.name
     };
   },
   created() {
-    // if (localStorage.getItem("title")) {
-    //   this.title = localStorage.getItem("title");
-    // } else {
-    //   this.title = "首页";
-    //   localStorage.setItem("title", "首页");
-    // }
+    document.addEventListener("plusready", function() {
+      var webview = plus.webview.currentWebview();
+      plus.key.addEventListener("backbutton", function() {
+        webview.canBack(function(e) {
+          if (e.canBack) {
+            webview.back();
+          } else {
+            //webview.close(); //hide,quit
+            //plus.runtime.quit();
+            //首页返回键处理
+            //处理逻辑：1秒内，连续两次按返回键，则退出应用；
+            var first = null;
+            plus.key.addEventListener(
+              "backbutton",
+              function() {
+                //首次按键，提示‘再按一次退出应用’
+                if (!first) {
+                  first = new Date().getTime();
+                  Vue.prototype.$toast.message("再次点击退出应用");
+                  setTimeout(function() {
+                    first = null;
+                  }, 1000);
+                } else {
+                  if (new Date().getTime() - first < 1500) {
+                    plus.runtime.quit();
+                  }
+                }
+              },
+              false
+            );
+          }
+        });
+      });
+    });
   },
   beforeDestroy() {
     // localStorage.removeItem("title");
   },
   watch: {
-    $route(to){
+    $route(to) {
       // debugger
-      this.title=to.name;
+      this.title = to.name;
     }
   },
   methods: {
-reload(){
+    reload() {
       this.isRouterAlive = false;
-      this.$nextTick(function(){
+      this.$nextTick(function() {
         this.isRouterAlive = true;
-      })
+      });
     }
   }
 };
