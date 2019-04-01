@@ -116,7 +116,18 @@
             <mu-list-item-title>{{ carInfo.variableSpeed?carInfo.variableSpeed:'未知' }}</mu-list-item-title>
           </mu-list-item-content>
         </mu-list-item>
+        <!-- <mu-list-item>
+          <mu-list-item-action>
+            <div class="info_label">技术评估</div>
+        </mu-list-item-action>-->
+        <!-- <mu-list-item-content> -->
+        <!-- <mu-list-item-title>{{ carInfo.assess?carInfo.assess:'未知' }}</mu-list-item-title> -->
+        <!-- </mu-list-item-content>
+        </mu-list-item>-->
       </mu-list>
+      <div class="divider"></div>
+      <mu-sub-header>技术评估</mu-sub-header>
+      <mu-card-text>{{ carInfo.assess?carInfo.assess:'车主暂无对车子的介绍' }}</mu-card-text>
     </div>
     <div v-if="active1 === 1">
       <!-- <mu-card-header class="card" title="Myron Avatar" sub-title="sub title">
@@ -233,15 +244,14 @@ export default {
             price: this.carInfo.price,
             carTitle: this.carInfo.carTitle,
             carId: this.carId,
-            status:0
+            status: 0
           },
           data => {
             if (data.isSuccess) {
               this.$toast.success("预约成功");
-            } else if(data.code==0){
+            } else if (data.code == 0) {
               this.$toast.error("您已预约，请勿重复预约");
-            }
-            else {
+            } else {
               this.$toast.error("预约失败，请稍后再试");
             }
           }

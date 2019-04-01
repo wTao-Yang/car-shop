@@ -14,8 +14,8 @@
       </mu-button>
     </div>
     <mu-carousel hide-controls>
-      <mu-carousel-item v-for="item in imgList" :key="item.carId">
-        <img @click="goDetail(item.carId)" :src="item.img">
+      <mu-carousel-item v-for="(item,index) in imgList" :key="index">
+        <img @click="goNew(item.carId)" :src="item.img">
       </mu-carousel-item>
       <!-- <mu-carousel-item>
         <img src="../../assets/images/fu2012/fu2.jpg">
@@ -100,6 +100,9 @@ export default {
     this._getHotBrand()
   },
   methods: {
+    goNew(link){
+      location.href = link
+    },
     // goDetail(){
     //   this.$router.push({ path: "/carDetail", query: { id: id } });
     // },
