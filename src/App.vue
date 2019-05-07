@@ -73,6 +73,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   // background-color: #fff;
+  .container{
+  //   // width: 100%;
+    padding-right: 0px;
+    padding-left: 0;
+  //   // margin-right: auto;
+  //   // margin-left: auto;
+  }
 }
 .divider {
   height: 10px;

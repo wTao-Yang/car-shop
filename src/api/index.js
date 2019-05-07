@@ -1,7 +1,7 @@
 import axios from 'axios';
-// const baseURL='http://47.112.4.52:8080';
+const baseURL='http://47.112.4.52:8080';
 
-const baseURL='http://localhost:8088';
+// const baseURL='http://localhost:8088';
 
 function getData(url,method='post'){
 	return async(data,callback) => {

@@ -87,8 +87,8 @@ export default {
                     };
                   }
                 }).then(({ result, value }) => {
-                  if (value.length <= 6) {
-                    this.$toast.error("字数必须超过6个");
+                  if (value.length < 6) {
+                    this.$toast.error("字数必须不小于6个");
                     return;
                   }
                   if (result) {

@@ -8,11 +8,14 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "material-icons": "^0.3.1",
     "muse-ui": "^3.0.2",
     "muse-ui-loading": "^0.2.0",
     "muse-ui-message": "^0.2.1",
     "muse-ui-toast": "^0.3.0",
     "vue": "^2.6.6",
+    "vue-awesome-mui": "^1.7.3",
+    "vue-material-design-icons": "^3.2.0",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },

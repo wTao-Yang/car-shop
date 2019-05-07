@@ -11,7 +11,7 @@
         button
       >
         <mu-avatar>
-          <img :src="item.carImg">
+          <img :src="baseURL+item.carImg">
         </mu-avatar>
         <mu-list-item-content>
           <mu-list-item-title>{{ item.carTitle }}</mu-list-item-title>

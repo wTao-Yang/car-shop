@@ -2,7 +2,7 @@
   <div class="home">
     <mu-carousel hide-controls>
       <mu-carousel-item v-for="(item,index) in carInfo.carImg" :key="index">
-        <img :src="item">
+        <img :src="baseURL+item">
       </mu-carousel-item>
       <!-- <mu-carousel-item>
         <img src="../../assets/images/fu2012/fu2.jpg">

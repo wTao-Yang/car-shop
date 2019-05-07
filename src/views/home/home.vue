@@ -15,7 +15,7 @@
     </div>
     <mu-carousel hide-controls>
       <mu-carousel-item v-for="(item,index) in imgList" :key="index">
-        <img @click="goNew(item.carId)" :src="item.img">
+        <img @click="goNew(item.carId)" :src="baseURL+item.img">
       </mu-carousel-item>
       <!-- <mu-carousel-item>
         <img src="../../assets/images/fu2012/fu2.jpg">
@@ -47,7 +47,7 @@
       <mu-list textline="three-line">
         <mu-list-item @click="goDetail(item.carId)" v-for="(item,index) in carList" :key="index" avatar :ripple="false" button>
           <mu-avatar>
-            <img :src="item.carImg">
+            <img :src="baseURL+item.carImg">
           </mu-avatar>
           <mu-list-item-content>
             <mu-list-item-title>{{ item.carTitle }}</mu-list-item-title>
@@ -136,7 +136,7 @@ export default {
       // console.log(file.files[0])
       // console.log(this.$refs.img.files[0])
       // formData.append()
-      axios.post("http://localhost:8887/upload", formData,{headers:{'Content-Type': 'multipart/form-data'}}).then(result => {
+      axios.post("http://localhost:8080/upload", formData,{headers:{'Content-Type': 'multipart/form-data'}}).then(result => {
         if(result.data.code){
           this.$toast.success("上传成功");
         }else{
@@ -245,6 +245,7 @@ export default {
   }
   .mu-list {
     padding: 0;
+    overflow: hidden;
     /deep/ .mu-item {
       height: 120px;
       padding: 0;

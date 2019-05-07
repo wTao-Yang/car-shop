@@ -2,7 +2,7 @@
   <div class="self">
     <div v-if="show">
       <div class="self_card">
-        <img @click="openImg" :src="info.headPic" alt>
+        <img @click="openImg" :src="baseURL+info.headPic" alt>
         <div>昵称：{{ info.nickName }}</div>
         <div>注册时间：{{ info.registerDay }}</div>
       </div>

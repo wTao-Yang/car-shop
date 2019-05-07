@@ -115,7 +115,7 @@
             button
           >
             <mu-avatar>
-              <img :src="item.carImg">
+              <img :src="baseURL+item.carImg">
             </mu-avatar>
             <mu-list-item-content>
               <mu-list-item-title>{{ item.carTitle }}</mu-list-item-title>
@@ -278,6 +278,7 @@ export default {
 .car_list {
   overflow: hidden;
   .mu_list {
+        overflow: hidden;
     .mu-avatar img {
       border-radius: 0 !important;
     }
